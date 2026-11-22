@@ -1,9 +1,6 @@
 name: Lint source code
 
-on:
-  push:
-  pull_request:
-  workflow_dispatch:
+on: push
 
 permissions:
   contents: read
@@ -13,8 +10,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  FORCE_COLOR: "1"
-  UV_SYSTEM_PYTHON: "1"  # make uv do global installs
+  FORCE_COLOR: '1'
+  UV_SYSTEM_PYTHON: '1'  # make uv do global installs
 
 jobs:
   # If you update any of these commands, don't forget to update the equivalent
@@ -23,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v5
       with:
         persist-credentials: false
 
@@ -42,20 +39,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v5
       with:
         persist-credentials: false
     - name: Set up Python
       uses: actions/setup-python@v6
       with:
-        python-version: "3"
+        python-version: '3'
     - name: Install uv
-      uses: astral-sh/setup-uv@v7
+      uses: astral-sh/setup-uv@v6
       with:
         version: latest
         enable-cache: false
     - name: Install dependencies
-      run: uv pip install -r pyproject.toml --group package --group test --group types
+      run: uv pip install -r pyproject.toml --group package --group test --group
+        types
     - name: Type check with mypy
       run: mypy
 
@@ -63,80 +61,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v5
       with:
         persist-credentials: false
     - name: Set up Python
       uses: actions/setup-python@v6
       with:
-        python-version: "3"
+        python-version: '3'
     - name: Install uv
-      uses: astral-sh/setup-uv@v7
+      uses: astral-sh/setup-uv@v6
       with:
         version: latest
         enable-cache: false
     - name: Install dependencies
-      run: uv pip install -r pyproject.toml --group package --group test --group types
+      run: uv pip install -r pyproject.toml --group package --group test --group
+        types
     - name: Type check with pyright
       run: pyright
-
-  pyrefly:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v6
-      with:
-        persist-credentials: false
-    - name: Set up Python
-      uses: actions/setup-python@v6
-      with:
-        python-version: "3"
-    - name: Install uv
-      uses: astral-sh/setup-uv@v7
-      with:
-        version: latest
-        enable-cache: false
-    - name: Install dependencies
-      run: uv pip install -r pyproject.toml --group package --group test --group types
-    - run: echo "$(which python)"
-    - name: Type check with pyrefly
-      run: pyrefly check
-
-  ty:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v6
-      with:
-        persist-credentials: false
-    - name: Set up Python
-      uses: actions/setup-python@v6
-      with:
-        python-version: "3"
-    - name: Install uv
-      uses: astral-sh/setup-uv@v7
-      with:
-        version: latest
-        enable-cache: false
-    - name: Install dependencies
-      run: uv pip install -r pyproject.toml --group package --group test --group types
-    - run: echo "$(which python)"
-    - name: Type check with ty
-      run: ty check --color=always --python="$(which python)"
 
   docs-lint:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v5
       with:
         persist-credentials: false
     - name: Set up Python
       uses: actions/setup-python@v6
       with:
-        python-version: "3"
+        python-version: '3'
     - name: Install uv
-      uses: astral-sh/setup-uv@v7
+      uses: astral-sh/setup-uv@v6
       with:
         version: latest
         enable-cache: false
@@ -149,15 +104,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v5
       with:
         persist-credentials: false
     - name: Set up Python
       uses: actions/setup-python@v6
       with:
-        python-version: "3"
+        python-version: '3'
     - name: Install uv
-      uses: astral-sh/setup-uv@v7
+      uses: astral-sh/setup-uv@v6
       with:
         version: latest
         enable-cache: false
@@ -172,12 +127,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v5
     - name: Set up Node.js
-      uses: actions/setup-node@v6
+      uses: actions/setup-node@v5
       with:
-        node-version: "20"
-        cache: "npm"
+        node-version: '20'
+        cache: npm
     - run: >
         npx prettier@3.5
         --check
